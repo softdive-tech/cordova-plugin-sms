@@ -99,7 +99,7 @@ public class SmsPlugin extends CordovaPlugin {
             callbackContext.sendPluginResult(pluginResult);
             this.callback_receive = callbackContext;
 
-            final String whereClause = JSONObject.NULL.equals(obj) ? null : obj;
+            //final String whereClause = JSONObject.NULL.equals(obj) ? null : obj;
             return true;
         } else if (action.equals(ACTION_STOP_RECEIVE_SMS)) {
 
