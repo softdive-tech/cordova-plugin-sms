@@ -126,7 +126,8 @@ public class SmsPlugin extends CordovaPlugin {
             cordova.getThreadPool().execute(new Runnable () {
                 @Override
                 public void run() {
-                    callbackContext.success(smsReader.getMessages(maxRows, whereClause, whereArgs, orderByClause));
+                    //callbackContext.success(smsReader.getMessages(maxRows, whereClause, whereArgs, orderByClause));
+                    callbackContext.success(smsReader.getMessages(maxRows, null, whereArgs, orderByClause));
                 }
             });
             return true;
