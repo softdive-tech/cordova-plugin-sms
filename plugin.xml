@@ -1,0 +1,83 @@
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:rim="http://www.blackberry.com/ns/widgets"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="org.apache.cordova.device"
+        version="0.3.1-dev">
+    <name>SmsPlugin</name>
+    <description>Cordova SMS Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,SMS</keywords>
+    <repo>https://github.com/softdive/cordova-plugin-sms.git</repo>
+
+
+    <js-module src="www/SmsPlugin.js" name="smsrec">
+        <clobbers target="navigator.smsrec" />
+    </js-module>
+
+
+    <platform name="android">
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="PushPlugin" >
+                <param name="android-package" value="com.plugin.gcm.PushPlugin"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+            <uses-permission android:name="android.permission.WAKE_LOCK" />
+            <uses-permission android:name="android.permission.VIBRATE"/>
+            <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+            <permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+            <uses-permission android:name="$PACKAGE_NAME.permission.C2D_MESSAGE" />
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <activity android:name="com.plugin.gcm.PushHandlerActivity" android:exported="true"/>
+            <receiver android:name="com.plugin.gcm.CordovaGCMBroadcastReceiver" android:permission="com.google.android.c2dm.permission.SEND" >
+                <intent-filter>
+                    <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                    <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+                    <category android:name="$PACKAGE_NAME" />
+                </intent-filter>
+            </receiver>
+            <service android:name="com.plugin.gcm.GCMIntentService" />
+        </config-file>
+
+        <source-file src="src/android/libs/gcm.jar" target-dir="libs/" />
+        <source-file src="src/android/com/plugin/gcm/CordovaGCMBroadcastReceiver.java" target-dir="src/com/plugin/gcm/" />
+        <source-file src="src/android/com/plugin/gcm/GCMIntentService.java" target-dir="src/com/plugin/gcm/" />
+        <source-file src="src/android/com/plugin/gcm/PushHandlerActivity.java" target-dir="src/com/plugin/gcm/" />
+        <source-file src="src/android/com/plugin/gcm/PushPlugin.java" target-dir="src/com/plugin/gcm/" />
+        <source-file src="src/android/com/plugin/android-support-v13.jar" target-dir="libs/" />
+
+    </platform>
+
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+
+            <feature name="SmsPlugin">
+                <param name="android-package" value="com.applegrew.cordova.android.plugin.sms.SmsPlugin" />
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.RECEIVE_SMS" />
+            <uses-permission android:name="android.permission.READ_SMS" />
+        </config-file>
+
+        <source-file src="src/android/Callback.java" target-dir="src/com/applegrew/cordova/android/plugin/sms" />
+        <source-file src="src/android/JSONUtil.java" target-dir="src/com/applegrew/cordova/android/plugin/sms" />
+        <source-file src="src/android/SampleLogSmsReceiverManifest.java" target-dir="src/com/applegrew/cordova/android/plugin/sms" />
+        <source-file src="src/android/SMS.java" target-dir="src/com/applegrew/cordova/android/plugin/sms" />
+        <source-file src="src/android/SmsInboxReader.java" target-dir="src/com/applegrew/cordova/android/plugin/sms" />
+        <source-file src="src/android/SmsPlugin.java" target-dir="src/com/applegrew/cordova/android/plugin/sms" />
+        <source-file src="src/android/SmsReceiver.java" target-dir="src/com/applegrew/cordova/android/plugin/sms" />
+        <source-file src="src/android/SmsReceiverManifest.java" target-dir="src/com/applegrew/cordova/android/plugin/sms" />
+        <source-file src="src/android/SmsReceiverRuntime.java" target-dir="src/com/applegrew/cordova/android/plugin/sms" />
+
+    </platform>
+</plugin>
